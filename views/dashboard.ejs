@@ -1,0 +1,138 @@
+<section id="hero" class="counts pb-5">
+    <div class="container">
+
+      <div class="row" data-aos="fade-up">
+
+        <div class="col-lg-8 mt-5 mt-lg-0" data-aos="fade-left" data-aos-delay="200">
+            <div>
+                <h3 class="text-white">Enter A Long URL To Shorten</h3>
+            </div>
+            <% if(typeof err != 'undefined'){ %>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>Error</strong>: <%= err %>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+              </div>
+            <% }else if(typeof msg != 'undefined'){ %>
+                <div class="alert alert-success fade show" role="alert">
+                  <%= msg %>
+                </div>
+            <% } %>
+            <form action="/dashboard" method="post" role="form">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <div class="form-group mt-3">
+                <label for="exampleInputEmail1" class="text-white">Original URL</label>
+                <input type="text" class="form-control" name="longURL" id="longURL" placeholder="Original URL" required>
+              </div>
+              <div class="form-group mt-3">
+                <label for="exampleInputEmail1" class="text-white">Short Slug</label>
+                <input type="text" class="form-control" name="slug" id="slug" placeholder="short url" required>
+              </div>
+              <br>
+              <button class="btn btn-block" style="background-color: #1acc8d; color:#f0f0f0;" type="submit">Custom URL</button>
+            </form>
+
+          </div>
+
+      </div>
+
+    </div>
+</section>
+
+<section id="urls">
+  <div class="container p-5">
+    <h2 class="text-center">Your urls and their performance</h2>
+    <div class="row row-cols-1 g-4 text-center">
+      <% if(urls.length != 0){ %>
+        <% urls.forEach((url) => { %>
+          <div class="col">
+            <div class="container shadow rounded-3 bg-light">
+              <div class="container row justify-content-around">
+                <div class="col-12 col-md-4 col-lg-3 mb-3">
+                  <div class="card customcard ratio ratio-1x1 shadow">
+                    <div class="d-flex flex-column justify-content-center align-item-center">
+                      <p>Total <br>Visits</p>
+                      <h3>
+                        <%= url['visits'] %>
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-4 col-lg-3 mb-3">
+                  <div class="card customcard ratio ratio-1x1 shadow">
+                    <div class="d-flex flex-column justify-content-center align-item-center">
+                      <p>Facebook <br>Visits</p>
+                      <h3>
+                        <%= url['visitsFB'] %>
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-4 col-lg-3 mb-3">
+                  <div class="card customcard ratio ratio-1x1 shadow">
+                    <div class="d-flex flex-column justify-content-center align-item-center">
+                      <p>Instagram <br>Visits</p>
+                      <h3>
+                        <%= url['visitsIG'] %>
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-4 col-lg-3 mb-3">
+                  <div class="card customcard ratio ratio-1x1 shadow">
+                    <div class="d-flex flex-column justify-content-center align-item-center">
+                      <p>Youtube <br>Visits</p>
+                      <h3>
+                        <%= url['visitsYT'] %>
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row justify-content-center">
+                <div class="col-12 col-md-6 col-lg-5 mx-auto">
+                  <canvas id="<%= url['_id'] %>" width="350" height="350"></canvas>
+                </div>
+              </div>
+              <a class="btn btn-primary mt-4 mb-4" href="http://localhost:5000/<%= url['slug'] %>">Visit Short Url</a>
+            </div>
+          </div>
+
+        <% }) %>
+      <%} else{ %>
+        <h4>You have not created any url &#128528; &#128530;</h4>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  <% if(urls.length != 0){ %>
+  <% urls.forEach((url) => { %>
+  var ct = document.getElementById('<%= url["_id"] %>').getContext('2d');
+  var myChart = new Chart(ct, {
+      type: 'doughnut',
+      data: {
+          labels: ['Total', 'Facebook', 'Instagram', 'Youtube'],
+          datasets: [{
+              label: "Link Analytics",
+              data: [<%= url['visits'] %>, <%= url['visitsFB'] %>, <%= url['visitsIG'] %>, <%= url['visitsYT'] %>],
+              backgroundColor: [
+                  'rgba(66, 103, 178, 1)',
+                  '#1acc8d',
+                  '#40ab2a',
+                  '#ff0020',
+              ],
+          }]
+      }
+  })
+  <% }) %>
+  <% } %>
+</script>
+
+

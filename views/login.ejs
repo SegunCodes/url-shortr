@@ -1,0 +1,45 @@
+<!-- ======= login form Section ======= -->
+<section id="hero" class="counts pb-5">
+    <div class="container">
+
+      <div class="row" data-aos="fade-up">
+
+        <div class="col-lg-8 mt-5 mt-lg-0" data-aos="fade-left" data-aos-delay="200">
+            <div>
+                <h3 class="text-white">Login to Your Account</h3>
+            </div>
+            <% if(typeof err != 'undefined'){ %>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>Error</strong>: <%= err %>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+              </div>
+            <% }else if(typeof msg != 'undefined'){ %>
+                <div class="alert alert-success fade show" role="alert">
+                    <%= msg %>
+                </div>
+            <% }else if(error != ""){ %>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error</strong>: <%= error %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+              </div>
+            <% } %>
+            <form action="/login" method="post" role="form">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <div class="form-group mt-3">
+                <label for="exampleInputEmail1" class="text-white">Email address</label>
+                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+              </div>
+              <div class="form-group mt-3">
+                <label for="exampleInputPassword" class="text-white">Password</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Your Password" required>
+              </div>
+              <small><a href="/forgot-password" class="text-white">forgot your password?</a></small><br><br>
+              <button class="btn btn-block" style="background-color: #1acc8d; color:#f0f0f0;" type="submit">Login</button>
+            </form>
+
+          </div>
+
+      </div>
+
+    </div>
+</section><!-- End login form Section -->

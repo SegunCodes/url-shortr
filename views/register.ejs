@@ -1,0 +1,48 @@
+<!-- ======= register form Section ======= -->
+<section id="hero" class="counts pb-5">
+    <div class="container">
+
+      <div class="row" data-aos="fade-up">
+
+        <div class="col-lg-8 mt-5 mt-lg-0" data-aos="fade-left" data-aos-delay="200">
+            <div>
+                <h3 class="text-white">Get Started on URL Shortr</h3>
+            </div>
+            <% if(typeof err != 'undefined'){ %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error</strong>: <%= err %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+                </div>
+            <% }else if(typeof msg != 'undefined'){ %>
+                <div class="alert alert-success fade show" role="alert">
+                    <%= msg %>
+                </div>
+            <% } %>
+            <form action="/register" method="post" role="form">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <div class="form-group mt-3">
+                    <label for="exampleInputName1" class="text-white">Username</label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Your Username" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="exampleInputEmail1" class="text-white">Email address</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="exampleInputPassword" class="text-white">Password</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Your Password" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="exampleInputPassword" class="text-white">Confirm Password</label>
+                    <input type="password" class="form-control" name="cpassword" id="cpassword" placeholder="Confirm Password" required>
+                </div><br>
+                <button class="btn btn-block" style="background-color: #1acc8d; color:#f0f0f0;" type="submit">Sign up</button>
+                <span class="text-white">| <a href="/login" class="text-white">Login instead?</a></span>
+            </form>
+
+          </div>
+
+      </div>
+
+    </div>
+</section><!-- End register form Section -->
